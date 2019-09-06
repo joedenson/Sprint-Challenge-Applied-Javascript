@@ -32,9 +32,9 @@ function articleCards(obj) {
     headline.classList.add('headline');
     author.classList.add('author');
     imgContainer.classList.add('img-container');
-    img.src = obj.data.articles.authorPhoto;
-    headline.textContent = obj.data.articles.headline;
-    spanEl.textContent = `By ${obj.data.articles.authorName}`;
+    img.src = obj['authorPhoto'];
+    headline.textContent = obj['headline'];
+    spanEl.textContent = `By ${obj['authorName']}`;
 
     articleCard.appendChild(headline);
     articleCard.appendChild(author);
@@ -51,20 +51,47 @@ function articleCards(obj) {
 const cardsContainer = document.querySelector('.cards-container');
 
 
+// axios
+//     .get('https://lambda-times-backend.herokuapp.com/articles')
+//     .then(response => {
+
+//         const keys = Object.keys(response.data.articles);
+//         console.log(keys);
+
+//         // keys.forEach(item => {
+//         //         response.data.articles[item].forEach(element => {
+//         //             // element.articles(element);
+//         //             // const newArticle = articleCards(element);
+//         //             // console.log(newArticle)
+//         //             // cardsContainer.appendChild(newArticle);
+
+//         //         })
+
+//     })
+//     .catch(error => {
+//         console.log("The data was not returned", error);
+//     })
+
+
+
 axios
     .get('https://lambda-times-backend.herokuapp.com/articles')
     .then(response => {
-        console.log(response);
 
         const dataInfo = Object.entries(response.data.articles);
-        console.log(dataInfo)
+        // console.log(dataInfo);
+
         dataInfo.forEach(item => {
-            const newArticle = articleCards(item);
-            console.log(newArticle)
+            console.log(item[1])
+
+
+            const newArticle = articleCards(item[1]);
+            // console.log(newArticle)
             cardsContainer.appendChild(newArticle);
         });
+
 
     })
     .catch(error => {
         console.log("The data was not returned", error);
-    });
+    })
