@@ -28,19 +28,21 @@ function articleCards(obj) {
     const img = document.createElement('img');
     const spanEl = document.createElement('span');
 
-    articleCard.classList.add('.card');
+    articleCard.classList.add('card');
     headline.classList.add('headline');
     author.classList.add('author');
     imgContainer.classList.add('img-container');
-    img.src = obj['authorPhoto'];
-    headline.textContent = obj['headline'];
+    img.src = `${obj['authorPhoto']}`;
+    img.alt = `${obj['authorName']}`;
+    headline.textContent = `${obj['headline']}`;
     spanEl.textContent = `By ${obj['authorName']}`;
+
 
     articleCard.appendChild(headline);
     articleCard.appendChild(author);
-    articleCard.appendChild(imgContainer);
+    author.appendChild(imgContainer);
     imgContainer.appendChild(img);
-    articleCard.appendChild(spanEl);
+    author.appendChild(spanEl);
 
 
     return articleCard;
@@ -79,18 +81,16 @@ axios
     .then(response => {
 
         const dataInfo = Object.entries(response.data.articles);
-        // console.log(dataInfo);
 
         dataInfo.forEach(item => {
-            console.log(item[1])
 
+            item[1].forEach(element => {
+                console.log(element)
+                const newArticle = articleCards(element);
+                cardsContainer.appendChild(newArticle);
+            })
 
-            const newArticle = articleCards(item[1]);
-            // console.log(newArticle)
-            cardsContainer.appendChild(newArticle);
         });
-
-
     })
     .catch(error => {
         console.log("The data was not returned", error);
